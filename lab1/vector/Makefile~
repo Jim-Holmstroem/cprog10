@@ -1,0 +1,11 @@
+all:
+	g++ -DDEBUG vector.cpp main.cpp -o test
+run:
+	./test
+	
+no_debug:
+	g++ vector.cpp main.cpp -o test
+
+send:
+	~/kurser/cprog10/./submit.py cprog09lab14.cpp vector.cpp vector.h
+    

@@ -1,0 +1,10 @@
+all:
+	g++ -DDEBUG vec_temp.cpp main.cpp -o test
+run:
+	./test
+	
+no_debug:
+	g++ vec_temp.cpp main.cpp -o test
+
+
+    

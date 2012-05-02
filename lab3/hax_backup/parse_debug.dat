@@ -1,0 +1,10 @@
+**New game**
+help
+info
+focus Albus
+info
+view
+go west
+ls
+view
+quit

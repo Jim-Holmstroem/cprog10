@@ -1,0 +1,25 @@
+#COMPILER
+CC=g++
+#COMPILE-FLAGS
+CFLAGS=-c -Wall
+#LINK-FLAGS
+LDFLAGS=
+#SOURCE FILES
+SOURCES=test.cpp
+#OBJECT FILES (.o version of all SOURCE FILES)
+OBJECTS=$(SOURCES:.cpp=.o)
+#EXE NAME
+EXECUTABLE=test
+
+
+all: $(SOURCES) $(EXECUTABLE)
+
+	
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
+clean:
+	rm -rf *.o $(EXECUTABLE)
+

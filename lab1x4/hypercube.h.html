@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>~/cprog10/lab1x4/hypercube.h.html</title>
+<meta name="Generator" content="Vim/7.2">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+<body bgcolor="#ffffff" text="#000000"><font face="monospace">
+<font color="#a020f0">#ifndef HYPERCUBE_H</font><br>
+<font color="#a020f0">#define HYPERCUBE_H</font><br>
+<br>
+<font color="#a020f0">#include </font><font color="#ff00ff">&quot;vector.h&quot;</font><br>
+<br>
+<font color="#2e8b57"><b>template</b></font>&lt;<font color="#2e8b57"><b>unsigned</b></font>&nbsp;<font color="#2e8b57"><b>int</b></font>&nbsp;N&gt; <font color="#0000ff">//N is the dimension of the hypercube</font><br>
+<font color="#2e8b57"><b>class</b></font>&nbsp;Hypercube: <font color="#a52a2a"><b>private</b></font>&nbsp;Vector&lt; Hypercube&lt;N-<font color="#ff00ff">1</font>&gt; &gt;{<br>
+&nbsp;&nbsp;<font color="#a52a2a"><b>public</b></font>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Hypercube(){std::cout &lt;&lt; <font color="#ff00ff">&quot;Hypercube&lt;&quot;</font>&lt;&lt;N&lt;&lt;<font color="#ff00ff">&quot;&gt;::Hypercube()&quot;</font>&nbsp;&lt;&lt; std::endl;};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Hypercube(<font color="#2e8b57"><b>const</b></font>&nbsp;std::<font color="#2e8b57"><b>size_t</b></font>&nbsp;size):elems(size,Hypercube&lt;N-<font color="#ff00ff">1</font>&gt;(size)){std::cout &lt;&lt; <font color="#ff00ff">&quot;Hypercube&lt;&quot;</font>&nbsp;&lt;&lt; N &lt;&lt; <font color="#ff00ff">&quot;&gt;::Hypercube(size_t size)&quot;</font>&nbsp;&lt;&lt; std::endl;};<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//using Hypercube(const Hypercube&amp; h);</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//Hypercube(const Hypercube&amp; h){</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//&nbsp;&nbsp;&nbsp;&nbsp;std::cout &lt;&lt; &quot;Hypercube&lt;&quot; &lt;&lt; N &lt;&lt; &quot;&gt;::Hypercube(const Hypercube&amp;)&quot;&lt;&lt; std::endl;</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//&nbsp;&nbsp;&nbsp;&nbsp;this-&gt;elems = h.elems;</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//}</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#a52a2a"><b>using</b></font>&nbsp;Vector&lt; Hypercube&lt;N-<font color="#ff00ff">1</font>&gt; &gt;::<font color="#a52a2a"><b>operator</b></font>[];<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//Hypercube&lt;N-1&gt;&amp; operator[](const std::size_t i){ return elems[i];};</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//const Hypercube&lt;N-1&gt;&amp; operator[](const std::size_t i) const { return elems[i];};</font><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//using Vector&lt; Hypercube&lt;N-1&gt; &gt;&amp; operator=(const Hypercube&amp; h);</font><br>
+<br>
+<font color="#0000ff">//the previous size will not be taken into consideration but dimension must still be correct, ex. Hypercube&lt;2&gt; m(3); Hypercube&lt;4&gt; m2(5); m = m2[0][0]; OK</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//Hypercube&amp; operator=(const Hypercube&amp; h){</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//&nbsp;&nbsp;&nbsp;&nbsp;std::cout &lt;&lt; &quot;Hypercube&lt;&quot; &lt;&lt; N &lt;&lt; &quot;&gt;::operator=(const Hypercube)&quot;&lt;&lt; std::endl;</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//&nbsp;&nbsp;&nbsp;&nbsp;this-&gt;elems = h.elems;</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//&nbsp;&nbsp;&nbsp;&nbsp;return *this;</font><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#0000ff">//}</font><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#a52a2a"><b>using</b></font>&nbsp;Vector&lt; Hypercube&lt;N-<font color="#ff00ff">1</font>&gt; &gt; elems; <font color="#0000ff">//is public to remove a forloop copying in operator=</font><br>
+};<br>
+<br>
+<font color="#2e8b57"><b>template</b></font>&lt;&gt;<br>
+<font color="#2e8b57"><b>class</b></font>&nbsp;Hypercube&lt;<font color="#ff00ff">1u</font>&gt; : <font color="#a52a2a"><b>private</b></font>&nbsp;Vector&lt;<font color="#2e8b57"><b>int</b></font>&gt;{<br>
+&nbsp;&nbsp;<font color="#a52a2a"><b>public</b></font>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Hypercube(){std::cout &lt;&lt; <font color="#ff00ff">&quot;Hypercube&lt;1&gt;::Hypercube()&quot;</font>&lt;&lt;std::endl; };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Hypercube(<font color="#2e8b57"><b>const</b></font>&nbsp;std::<font color="#2e8b57"><b>size_t</b></font>&nbsp;i): Vector&lt;<font color="#2e8b57"><b>int</b></font>&gt;::Vector(i) {std::cout &lt;&lt; <font color="#ff00ff">&quot;Hypercube&lt;1&gt;::Hypercube(size_t i)&quot;</font>&lt;&lt;std::endl;};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#a52a2a"><b>using</b></font>&nbsp;Vector&lt;<font color="#2e8b57"><b>int</b></font>&gt;::<font color="#a52a2a"><b>operator</b></font>[];<br>
+<font color="#0000ff">//using operator=?</font><br>
+};<br>
+<font color="#a020f0">#endif</font><br>
+</font></body>
+</html>

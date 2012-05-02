@@ -1,0 +1,46 @@
+#include "main.h"
+#include <stdexcept>
+
+using namespace std;
+typedef unsigned int uint;
+
+
+/*
+* TODO: fixa std::size_t till alla loopar 
+*
+*
+*
+*/
+
+
+int main(int argc, char **argv){
+
+    Vector v(10);
+    
+    try{
+    
+         cout << v[1] << endl;
+        
+    } catch(std::out_of_range e){   
+    
+       cout<<"OUT OF RANGE DUDE!!1oneoneeleven"<<endl;
+   }
+
+
+    v.push_back(4);
+
+    v[2] = 1337;
+    
+    Vector b = v;
+    
+    Vector a;
+    v = v;
+    a = v;
+    a[0] = 13;
+
+    v.print();
+    a.print();
+    
+
+    return 0;
+}

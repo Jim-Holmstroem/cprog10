@@ -1,0 +1,28 @@
+MOD = matrix vector
+
+SRC = $(MOD:=.cpp)
+HDR = $(MOD:=.h)
+OBJ = $(MOD:=.o)
+
+CFLAG = -c -DDEBUG -Wall
+LFLAG =
+
+CTEST = -DCAL # recompiles main.cpp if Makefile is updated
+
+lab1x% : $(OBJ) main.o
+	g++ $(OBJ) main.o -o lab1x$*
+
+main.o : main.cpp main.h Makefile
+	g++ $(CFLAG) $(CTEST) main.cpp
+	
+matrix.o : matrix.cpp matrix.h
+	g++ $(CFLAG) $(CTEST) matrix.cpp
+
+vector.o : vector.cpp vector.h
+	g++ $(CFLAG) $(CTEST) vector.cpp
+
+clean:
+	rm -f *.o lab1x1
+
+run lab1x%:
+	./lab1x$*
