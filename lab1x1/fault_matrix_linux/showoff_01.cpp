@@ -41,14 +41,15 @@ void init_matrix( Matrix& m, const char * input )
     ss >> m;
 }
 
+void print_assert(const char * msg,bool value){
+    std::cout << msg << "=" << ((value)?"TRUE":"FALSE") << std::endl;
+}
 void print_assert(bool value){
     std::cout << ((value)?"TRUE":"FALSE") << std::endl;
 }
-
 int main()
 {
 
-print_assert(true);
-print_assert(false);
+    print_assert("test",true);
 
 }
