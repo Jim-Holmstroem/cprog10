@@ -59,5 +59,6 @@ int main()
 	);
 
 	//std::cout << a << std::endl; becomes all zeros
+	//should have made it const: ostream& operator<< (ostream &out, const Matrix &a)
 
 }
