@@ -33,14 +33,22 @@ Matrix constant_matrix() {
     return m;
 }
 
+
+
 void init_matrix( Matrix& m, const char * input )
 {
     std::stringstream ss( input );
     ss >> m;
 }
 
+void print_assert(bool value){
+    std::cout << ((value)?"TRUE":"FALSE") << std::endl;
+}
 
 int main()
 {
-    std::cout << checkEqualMatrix(constant_matrix(),constant_matrix()) << std::endl;
+
+print_assert(true);
+print_assert(false);
+
 }
