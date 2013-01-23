@@ -60,54 +60,71 @@
 //                             TS_ASSERT_DIFFERS( e.code(), SUCCESS ) );
 //}
 
-//If you need to comment out tests, use C++-style comments. Also, if you just don't want CxxTest to run a specific test function, you can temporarily change its name, e.g. by prefixing it with x:
+//If you need to comment out tests, use C++-style comments. Also, if you just don't want CxxTest to run a specific test function, you can temporarily change its name, e.g. by prefixing it with x
 
-//     class MyTest : public CxxTest::TestSuite
-//     {
-//     public:
-//     // void testFutureStuff()
-//     // {
-//     // }
 
-//        void xtestFutureStuff()
-//        {
-//        }
-//     };
-
-class MatrixTestSuite : public CxxTest::TestSuite{
-
-  public:
-
-    Matrix m;
+class MatrixTestSuite : public CxxTest::TestSuite
+{
+  private:
     int max_size;
 
-    void setUp(void){
-	    max_size = 5;
+	bool checkEqualMatrix(Matrix m1, Matrix m2)
+	{
+        if(m1.rows() != m2.rows() ){throw std::out_of_range("Unequal rows");}
+        if(m1.cols() != m2.cols() ){throw std::out_of_range("Unequal columns");}
 
+		for(int i = 0 ; i<m1.rows() ; i++){
+			for(int j = 0 ; j<m1.cols() ; j++){
+				if(m1[i][j] != m2[i][j]){return false;}
+			}
+		}
+
+	return true;
+	}
+	
+    Matrix a_matrix_3by2()
+    {
+        Matrix m;
+        std::stringstream s("[ 1 3 5 ; 0 2 0 ]");
+        s >> m;
+        return m;
     }
-
-
-    void xtestIndexOperator (void){
-
-        std::filebuf fb;
-        fb.open("matrices.dat",std::ios::in);
-        std::istream ins(&fb);
-        std::cerr << std::endl;
-        while(ins){
-            std::cerr<<(char)ins.get();
-        }
-        std::cerr << std::endl;
-
-        ins >> m;
-
+    
+    void init_matrix(Matrix& m, const char* file)
+    {
+        std::stringstream stream( file );
+        stream >> m;
+    }
+	
+  public:
+    //cxxtest will run this function first
+    void setUp(void)
+    {
+        max_size = 5;
+    }
+    
+    void testIndexOperator()
+    {
+        Matrix m( 2, 2 );
+		//std::cout << m;
         TS_ASSERT( m[ 0 ][ 1 ] == 0 );
-        const Matrix m_const(3,3);
-        //TS_ASSERT_THROWS_ANYTHING(m_const[2][2] = 1337);
-        //TS_ASSERT_EQUALS(m_const[2][2], 1337);
 
+        m = a_matrix_3by2();
+		//std::cout << m;
+        TS_ASSERT( m[ 0 ][ 0 ] == 1 );
+
+        init_matrix(m, "[ 1 3 5 ; 0 2 1 ]");
+        TS_ASSERT( m[ 0 ][ 0 ] == 1 );
+
+        std::stringstream ss;
+        ss << m;
+        ss >> m;
+		//std::cout << m;
+        TS_ASSERT( m[ 0 ][ 0 ] == 1 );
     }
 
-    void testSquareConstructor(void){
+    void testSquareConstructor(void)
+    {
         for(int N = 0;N<max_size;N++){//kvadratisk matriser
             Matrix a(N);
             TS_ASSERT_EQUALS(a.rows(),N);
@@ -119,12 +136,13 @@ class MatrixTestSuite : public CxxTest::TestSuite{
                     }else{
                         TS_ASSERT_EQUALS(a[i][j],1); //check if all elements on diagonal are 1  
                     }
-                }    
+                }
             }
         }
     }
 
-    void testNormalConstructor(void){
+    void testNormalConstructor(void)
+    {
         //NOTE I dont test the 0x1 matrices since we are unclear on what dimension those should have
         for(int N = 1;N<max_size;N++){
             for(int M = 1; M<max_size;M++){
@@ -150,9 +168,96 @@ class MatrixTestSuite : public CxxTest::TestSuite{
             }
         }
     }
+    
+	void test_default_constructor(){
+		Matrix m1;
+		//std::cout << m1;
 
-    void testElementwiseOperations(void){
+		TS_ASSERT( m1.rows() == 0 );
+		TS_ASSERT( m1.cols() == 0 );
+				
 
+
+	}
+
+	void test_size_constructor(){
+		Matrix m2(2,3);
+
+		//std::cout << m2;
+
+		TS_ASSERT( m2.rows() == 2 );
+		TS_ASSERT( m2.cols() == 3 );
+		
+		TS_ASSERT( m2[0][0] == 0 );
+		TS_ASSERT( m2[0][1] == 0 );
+		TS_ASSERT( m2[0][2] == 0 );
+		TS_ASSERT( m2[1][0] == 0 );
+		TS_ASSERT( m2[1][1] == 0 );
+		TS_ASSERT( m2[1][2] == 0 );
+
+	}
+
+
+
+	void test_copy_constructor(){
+		Matrix m1(2,3);
+		init_matrix(m1, "[ 1 2 3 ; 3 4 5 ]");
+
+		//std::cout << m1;
+
+		Matrix m2 = m1;
+		TS_ASSERT( m2[0][0] == 1 );
+		TS_ASSERT( m2[0][1] == 2 );
+		TS_ASSERT( m2[0][2] == 3 );
+		TS_ASSERT( m2[1][0] == 3 );
+		TS_ASSERT( m2[1][1] == 4 );
+		TS_ASSERT( m2[1][2] == 5 );
+		
+		TS_ASSERT( m2.rows() == 2 );
+		TS_ASSERT( m2.cols() == 3 );
+
+		//std::cout << m1;
+
+		Matrix m3(m1);
+
+
+
+		TS_ASSERT( m3[0][0] == 1 );
+		TS_ASSERT( m3[0][1] == 2 );
+		TS_ASSERT( m3[0][2] == 3 );
+		TS_ASSERT( m3[1][0] == 3 );
+		TS_ASSERT( m3[1][1] == 4 );
+		TS_ASSERT( m3[1][2] == 5 );
+		
+		TS_ASSERT( m3.rows() == 2 );
+		TS_ASSERT( m3.cols() == 3 );
+	
+		m3[0][0] = 100;
+
+		TS_ASSERT( m1[0][0] != 100 );
+
+
+	}
+
+	void test_size_constructor_quad(){
+		Matrix m2(3);
+
+		TS_ASSERT( m2[0][0] == 1 );
+		TS_ASSERT( m2[0][1] == 0 );
+		TS_ASSERT( m2[0][2] == 0 );
+		TS_ASSERT( m2[1][0] == 0 );
+		TS_ASSERT( m2[1][1] == 1 );
+		TS_ASSERT( m2[1][2] == 0 );
+		TS_ASSERT( m2[2][0] == 0 );
+		TS_ASSERT( m2[2][1] == 0 );
+		TS_ASSERT( m2[2][2] == 1 );
+		
+		TS_ASSERT( m2.rows() == 3 );
+		TS_ASSERT( m2.cols() == 3 );
+	}
+
+    void testElementwiseOperations(void)
+    {
         //check invalid combinations, but since they don't handle it we can't check it..
 
         for(int N=1;N<max_size;N++){
@@ -395,6 +500,540 @@ class MatrixTestSuite : public CxxTest::TestSuite{
             }
         }
     }
+    
+    
+    	void test_dot_product ( )
+    {
+        Matrix m( 1, 5 );
+		Matrix m2( 5, 1);
+		init_matrix(m, "[ 1 2 3 4 5 ]");
+		init_matrix(m2, "[ 1 ; 2 ; 3 ; 4 ; 5 ]");
+		//std::cout << m;
+		//std::cout << m2;
+		Matrix m3 = m*m2;
+       TS_ASSERT( m3[0][0] == 55 );
+    }
+
+
+	void test_matrix_multiplication_quadratic ( )
+    {
+
+        Matrix m1( 2, 2 );
+		Matrix m2( 2, 2);
+
+		init_matrix(m1, "[ 1 2 ; 3 4 ]");
+		init_matrix(m2, "[ 5 6 ; 7 8 ]");
+		//std::cout << m1;
+		//std::cout << m2;
+		Matrix m3 = m1*m2;
+
+
+    	TS_ASSERT( m3[0][0] == 19 );
+		TS_ASSERT( m3[0][1] == 22 );
+		TS_ASSERT( m3[1][0] == 43 );
+		TS_ASSERT( m3[1][1] == 50 );
+
+
+		TS_ASSERT( m1[0][0] == 1 );
+		TS_ASSERT( m1[0][1] == 2 );
+		TS_ASSERT( m1[1][0] == 3 );
+		TS_ASSERT( m1[1][1] == 4 );
+
+		TS_ASSERT( m2[0][0] == 5 );
+		TS_ASSERT( m2[0][1] == 6 );
+		TS_ASSERT( m2[1][0] == 7 );
+		TS_ASSERT( m2[1][1] == 8 );
+
+    }
+
+
+void test_matrix_multiplication_rectangular ( )
+    {
+        Matrix m1( 2, 3 );
+		Matrix m2( 3, 3);
+
+		init_matrix(m1, "[ 1 2 3 ; 3 4 5 ]");
+		init_matrix(m2, "[ 6 7 3 ; 8 9 3 ; 3 4 5 ]");
+		//std::cout << m1;
+		//std::cout << m2;
+
+		Matrix m3 = m1*m2;
+    	TS_ASSERT( m3[0][0] == 31 );
+		TS_ASSERT( m3[0][1] == 37 );
+		TS_ASSERT( m3[0][2] == 24 );
+		TS_ASSERT( m3[1][0] == 65 );
+		TS_ASSERT( m3[1][1] == 77 );
+		TS_ASSERT( m3[1][2] == 46 );
+
+    	TS_ASSERT( m1[0][0] == 1 );
+		TS_ASSERT( m1[0][1] == 2 );
+		TS_ASSERT( m1[0][2] == 3 );
+		TS_ASSERT( m1[1][0] == 3 );
+		TS_ASSERT( m1[1][1] == 4 );
+		TS_ASSERT( m1[1][2] == 5 );
+
+    	TS_ASSERT( m2[0][0] == 6 );
+		TS_ASSERT( m2[0][1] == 7 );
+		TS_ASSERT( m2[0][2] == 3 );
+		TS_ASSERT( m2[1][0] == 8 );
+		TS_ASSERT( m2[1][1] == 9 );
+		TS_ASSERT( m2[1][2] == 3 );
+		TS_ASSERT( m2[2][0] == 3 );
+		TS_ASSERT( m2[2][1] == 4 );
+		TS_ASSERT( m2[2][2] == 5 );
+
+		TS_ASSERT( m3.rows() == 2 );
+		TS_ASSERT( m3.cols() == 3 );
+	
+    }
+
+	void test_zero_size_multiplication ( )
+    {
+		////std::cin.ignore();
+        Matrix m1(0,0);
+		Matrix m2(0,0);
+		////std::cout << m2;
+		////std::cout << m1;
+		Matrix m3 = m1*m2;
+
+		TS_ASSERT( m3.rows() == 0 );
+		TS_ASSERT( m3.cols() == 0 );
+		////std::cin.ignore();
+    }
+
+
+void test_zero_size_addition ( )
+    {
+        Matrix m1(0,0);
+		Matrix m2( 0, 0);
+		////std::cout << m1;
+		////std::cout << m2;	
+		Matrix m3 = m1+m2;
+
+		TS_ASSERT( m3.rows() == 0 );
+		TS_ASSERT( m3.cols() == 0 );
+		////std::cin.ignore();
+    }
+
+	void test_zero_size_subtraction ( )
+    {
+        Matrix m1(0,0);
+		Matrix m2( 0, 0);
+		////std::cout << m1;
+		////std::cout << m2;
+		Matrix m3 = m1-m2;
+
+		TS_ASSERT( m3.rows() == 0 );
+		TS_ASSERT( m3.cols() == 0 );
+		////std::cin.ignore();
+    }
+
+
+	
+	void test_one_size_multiplication ( )
+    {
+        Matrix m1(1,1);
+		Matrix m2( 1, 1);
+		m1[0][0] = 4;
+		m2[0][0] = 10;
+		//std::cout << m1;
+		//std::cout << m2;
+		Matrix m3 = m1*m2;
+		TS_ASSERT( m3.rows() == 1 );
+		TS_ASSERT( m3.cols() == 1 );
+
+
+		TS_ASSERT( m3[0][0] == 40 );
+		TS_ASSERT( m1[0][0] == 4 );
+		TS_ASSERT( m2[0][0] == 10 );
+		////std::cin.ignore();
+		
+    }
+
+
+
+
+	
+
+	
+	void test_one_size_addition ( )
+    {
+        Matrix m1(1,1);
+		Matrix m2( 1, 1);
+		m1[0][0] = 4;
+		m2[0][0] = 10;
+		//std::cout << m1;
+		//std::cout << m2;
+		Matrix m3 = m1+m2;
+		TS_ASSERT( m3.rows() == 1 );
+		TS_ASSERT( m3.cols() == 1 );
+
+
+		TS_ASSERT( m3[0][0] == 14 );
+
+
+		TS_ASSERT( m1[0][0] == 4 );
+		TS_ASSERT( m2[0][0] == 10 );
+		//std::cin.ignore();		
+    }
+
+	void test_one_size_subtraction ( )
+    {
+        Matrix m1(1,1);
+		Matrix m2( 1, 1);
+		m1[0][0] = 4;
+		m2[0][0] = 10;
+		//std::cout << m2;
+		//std::cout << m1;
+		Matrix m3 = m1-m2;
+		TS_ASSERT( m3.rows() == 1 );
+		TS_ASSERT( m3.cols() == 1 );
+
+		TS_ASSERT( m3[0][0] == -6 );
+
+		TS_ASSERT( m2[0][0] == 10 );
+		TS_ASSERT( m1[0][0] == 4 );
+		//std::cin.ignore();
+		
+    }
+
+
+	void test_chain_mult ( )
+    {
+		Matrix m1( 2, 3 );
+		Matrix m2( 3, 3);
+		Matrix m3( 2, 2);		
+
+		init_matrix(m1, "[ 1 2 3 ; 3 4 5 ]");
+		init_matrix(m2, "[ 6 7 3 ; 8 9 3 ; 3 4 5 ]");
+		init_matrix(m3, "[ 8 5 ; 33 42 ]");
+
+		//std::cout << m1;
+		//std::cout << m2;
+		//std::cout << m3;
+
+
+		Matrix m4 = m3*m1*m2;
+
+		TS_ASSERT( m4[0][0] == 573 );
+		TS_ASSERT( m4[0][1] == 681 );
+		TS_ASSERT( m4[0][2] == 422 );
+		TS_ASSERT( m4[1][0] == 3753 );
+		TS_ASSERT( m4[1][1] == 4455 );
+		TS_ASSERT( m4[1][2] == 2724 );
+
+		TS_ASSERT( m4.rows() == 2 );
+		TS_ASSERT( m4.cols() == 3 );	
+		//std::cin.ignore();	
+    }
+	
+	void test_addition()
+	{
+		Matrix m1( 2, 3 );
+		Matrix m2( 2, 3);
+		Matrix m3( 2, 3);
+
+		init_matrix(m1, "[ 1 2 3 ; 3 4 5 ]");
+		init_matrix(m2, "[ 6 7 3 ; 8 9 3 ]");
+
+		//std::cout << m1;
+		//std::cout << m2;
+
+		m3 = m2+m1;
+
+		TS_ASSERT( m3[0][0] == 7 );
+		TS_ASSERT( m3[0][1] == 9 );
+		TS_ASSERT( m3[0][2] == 6 );
+		TS_ASSERT( m3[1][0] == 11 );
+		TS_ASSERT( m3[1][1] == 13 );
+		TS_ASSERT( m3[1][2] == 8 );
+	
+		
+		TS_ASSERT( m3.rows() == 2 );
+		TS_ASSERT( m3.cols() == 3 );
+		//std::cin.ignore();
+	}
+
+
+	void test_chain_addition()
+	{
+		Matrix m1( 2, 3 );
+		Matrix m2( 2, 3 );
+		Matrix m3( 2, 3 );
+
+		init_matrix(m1, "[ 1 2 3 ; 3 4 5 ]");
+		init_matrix(m2, "[ 6 7 3 ; 8 9 3 ]");
+		
+		//std::cout << m1;
+		//std::cout << m2;
+
+		m3 = m2+m1+m1;
+
+		TS_ASSERT( m3[0][0] == 8 );
+		TS_ASSERT( m3[0][1] == 11 );
+		TS_ASSERT( m3[0][2] == 9);
+		TS_ASSERT( m3[1][0] == 14 );
+		TS_ASSERT( m3[1][1] == 17 );
+		TS_ASSERT( m3[1][2] == 13 );
+	
+		
+		TS_ASSERT( m3.rows() == 2 );
+		TS_ASSERT( m3.cols() == 3 );
+		//std::cin.ignore();
+	}
+
+	void test_matrix_negation()
+	{
+		Matrix m1( 2, 3 );
+		init_matrix(m1, "[ 1 2 3 ; 4 5 6 ]");
+
+		//std::cout << m1;
+		
+		Matrix m3 = -m1;
+
+		TS_ASSERT( m3[0][0] == -1 );
+		TS_ASSERT( m3[0][1] == -2 );
+		TS_ASSERT( m3[0][2] == -3 );
+		TS_ASSERT( m3[1][0] == -4 );
+		TS_ASSERT( m3[1][1] == -5 );
+		TS_ASSERT( m3[1][2] == -6 );
+
+		TS_ASSERT( m3.rows() == 2 );
+		TS_ASSERT( m3.cols() == 3 );
+	}
+	
+
+	void test_subtraction()
+	{
+		Matrix m1( 2, 3 );
+		Matrix m2( 2, 3);
+		Matrix m3( 2, 3);
+
+		init_matrix(m1, "[ 1 2 3 ; 3 4 5 ]");
+		init_matrix(m2, "[ 6 7 3 ; 8 9 3 ]");
+
+		//std::cout << m1;
+		//std::cout << m2;
+
+
+		m3 = m1-m2;
+
+		TS_ASSERT( m3[0][0] == -5 );
+		TS_ASSERT( m3[0][1] == -5 );
+		TS_ASSERT( m3[0][2] == 0  );
+		TS_ASSERT( m3[1][0] == -5 );
+		TS_ASSERT( m3[1][1] == -5 );
+		TS_ASSERT( m3[1][2] == 2 );
+		
+		TS_ASSERT( m3.rows() == 2 );
+		TS_ASSERT( m3.cols() == 3 );
+	}
+
+
+	void test_chain_subtraction()
+	{
+		Matrix m1( 2, 3 );
+		Matrix m2( 2, 3 );
+		Matrix m3( 2, 3 );
+
+		init_matrix(m1, "[ 1 2 3 ; 3 4 5 ]");
+		init_matrix(m2, "[ 6 7 3 ; 8 9 3 ]");
+		
+		//std::cout << m1;
+		//std::cout << m2;
+
+		m3 = m2-m1-m1;
+
+		TS_ASSERT( m3[0][0] == 4 );
+		TS_ASSERT( m3[0][1] == 3 );
+		TS_ASSERT( m3[0][2] == -3 );
+		TS_ASSERT( m3[1][0] == 2 );
+		TS_ASSERT( m3[1][1] == 1 );
+		TS_ASSERT( m3[1][2] == -7 );
+		TS_ASSERT( m3.rows() == 2 );
+		TS_ASSERT( m3.cols() == 3 );
+	}
+
+
+	void test_matrix_mult_int()
+	{
+		Matrix m1( 2, 3 );
+		init_matrix(m1, "[ 1 2 3 ; 3 4 5 ]");
+		
+		//std::cout << m1;
+
+		Matrix m3 = m1 * 5;
+
+		TS_ASSERT( m3[0][0] == 5 );
+		TS_ASSERT( m3[0][1] == 10 );
+		TS_ASSERT( m3[0][2] == 15 );
+		TS_ASSERT( m3[1][0] == 15 );
+		TS_ASSERT( m3[1][1] == 20 );
+		TS_ASSERT( m3[1][2] == 25 );
+		TS_ASSERT( m3.rows() == 2 );
+		TS_ASSERT( m3.cols() == 3 );
+	}
+
+	void test_int_mult_matrix()
+	{
+		Matrix m1( 2, 3 );
+		init_matrix(m1, "[ 1 2 3 ; 3 4 5 ]");
+
+
+		//std::cout << m1;
+
+		Matrix m3 = 5 * m1 ;
+		TS_ASSERT( m3[0][0] == 5 );
+		TS_ASSERT( m3[0][1] == 10 );
+		TS_ASSERT( m3[0][2] == 15 );
+		TS_ASSERT( m3[1][0] == 15 );
+		TS_ASSERT( m3[1][1] == 20 );
+		TS_ASSERT( m3[1][2] == 25 );
+		TS_ASSERT( m3.rows() == 2 );
+		TS_ASSERT( m3.cols() == 3 );
+	}
+	
+	void test_transpose(){
+		Matrix m2(2,3);
+		init_matrix(m2, "[ 1 -2 3 ; 3 4 -5 ]");
+
+		//std::cout << m2;
+
+		m2.transpose();
+		
+		TS_ASSERT( m2[0][0] == 1 );
+		TS_ASSERT( m2[0][1] == 3 );
+
+		TS_ASSERT( m2[1][0] == -2 );
+		TS_ASSERT( m2[1][1] == 4 );
+
+		TS_ASSERT( m2[2][0] == 3 );
+		TS_ASSERT( m2[2][1] == -5 );
+
+		
+		TS_ASSERT( m2.rows() == 3 );
+		TS_ASSERT( m2.cols() == 2 );
+	}
+	
+	void test_assignment_operator(){
+		Matrix m1(2,3);
+		init_matrix(m1, "[ 1 -2 3 ; 3 4 -5 ]");
+		Matrix m2(2,2); 
+		init_matrix(m2, "[ 1 3 ; 3 -5 ]");
+
+		//std::cout << m1;
+		//std::cout << m2;
+
+		m2 = m1;
+		
+		TS_ASSERT( m2[0][0] == 1 );
+		TS_ASSERT( m2[0][1] == -2 );
+		TS_ASSERT( m2[0][2] == 3 );
+
+		TS_ASSERT( m2[1][0] == 3 );
+		TS_ASSERT( m2[1][1] == 4 );
+		TS_ASSERT( m2[1][2] == -5 );
+		
+		TS_ASSERT( m2.rows() == 2 );
+		TS_ASSERT( m2.cols() == 3 );
+
+		m2[0][0] = 100;
+
+		TS_ASSERT( m1[0][0] == 1 );
+		TS_ASSERT( m1[0][1] == -2 );
+		TS_ASSERT( m1[0][2] == 3 );
+
+		TS_ASSERT( m1[1][0] == 3 );
+		TS_ASSERT( m1[1][1] == 4 );
+		TS_ASSERT( m1[1][2] == -5 );
+		
+		TS_ASSERT( m1.rows() == 2 );
+		TS_ASSERT( m1.cols() == 3 );
+
+	}
+
+	void test_utskrift(){
+		Matrix m2(2,3);
+		init_matrix(m2, "[ 1 -2 3 ; 3 4 -5 ]");
+	
+
+		std::cout<<m2;
+		std::cout<<m2;
+		TS_ASSERT( m2[0][0] == 1 );
+		TS_ASSERT( m2[0][1] == -2 );
+		TS_ASSERT( m2[0][2] == 3 );
+
+		TS_ASSERT( m2[1][0] == 3 );
+		TS_ASSERT( m2[1][1] == 4 );
+		TS_ASSERT( m2[1][2] == -5 );
+		
+		TS_ASSERT( m2.rows() == 2 );
+		TS_ASSERT( m2.cols() == 3 );
+	}
+
+	void test_plus_then_plus(){
+		Matrix m1,m2,m3,m_o1,m_o2,m_result;
+
+		init_matrix(m1, "[ 2 3 ; 3 4 ]");
+		init_matrix(m2, "[ 7 3 ; 4 2 ]");		
+		init_matrix(m3, "[ 3 4 ; 1 4 ]");
+
+		init_matrix(m_result, "[ 12 10 ; 8 10 ]");
+		
+		m_o1 = m1 + m2;
+		m_o2 = m_o1 + m3;
+
+
+		TS_ASSERT( checkEqualMatrix(m_o2, m_result ) );
+	}
+
+	void test_plus_then_times(){
+		Matrix m1,m2,m3,m_o1,m_o2,m_result;
+
+
+		init_matrix(m1, "[ 2 3 ; 3 4 ]");
+		init_matrix(m2, "[ 7 3 ; 4 2 ]");	
+		init_matrix(m3, "[ 2 2 3 ; 1 3 7 ]");
+
+		init_matrix(m_result, "[ 24 36 69 ; 20 32 63 ]");
+		
+		m_o1 = m1 + m2;
+		m_o2 = m_o1 * m3;
+
+
+		TS_ASSERT( checkEqualMatrix(m_o2, m_result ) );
+	}
+
+	void test_plus_then_minus(){
+		Matrix m1,m2,m3,m_o1,m_o2,m_result;
+
+		init_matrix(m1, "[ 2 3 ; 3 4 ]");
+		init_matrix(m2, "[ 7 3 ; 4 2 ]");		
+		init_matrix(m3, "[ 3 4 ; 1 4 ]");
+
+		init_matrix(m_result, "[ 6 2 ; 6 2 ]");
+		
+		m_o1 = m1+m2;
+		m_o2 = m_o1-m3;
+
+		TS_ASSERT( checkEqualMatrix(m_o2, m_result ) );
+	}
+
+	void test_times_then_plus(){
+		Matrix m1,m2,m3,m_o1,m_o2,m_result;
+
+		init_matrix(m1, "[ 2 2 3 ; 1 3 7 ]");
+		init_matrix(m2, "[ 5 3 ; 6 7 ; 3 6 ]");		
+		init_matrix(m3, "[ 3 4 ; 1 4 ]");
+
+		init_matrix(m_result, "[ 34 42 ; 45 70 ]");
+		
+		m_o1 = m1*m2;
+		m_o2 = m_o1 + m3;
+
+
+		TS_ASSERT( checkEqualMatrix(m_o2, m_result ) );
+	}
 };
 
 #endif // MATRIX_TEST_H_INCLUDED
