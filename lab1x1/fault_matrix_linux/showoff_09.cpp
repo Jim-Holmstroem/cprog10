@@ -46,5 +46,28 @@ void print_assert(bool value){
 }
 int main()
 {
-    print_assert("test",equal(constant_matrix(),constant_matrix()));
+    Matrix a( 2, 2 );
+    Matrix b( 2, 2 );
+    Matrix c( 2, 2 );
+    Matrix abc( 2, 2 );
+    Matrix abcp( 2, 2 );
+	
+	init_matrix(a,"[ 1 2 ; 3 4 ]");
+	init_matrix(b,"[ 5 6 ; 7 8 ]");
+	init_matrix(c,"[ 9 10 ; 11 12 ]");
+	
+	init_matrix(abc,"[ 413 454 ; 937 1030 ]");
+	init_matrix(abcp,"[ 12 18 ; 21 24 ]");
+	
+
+    print_assert( "chain multiply",
+		equal(a*b*c,abc)
+	);
+
+    print_assert( "chain addition",
+		equal(a+b+c,abcp)
+	);
+	Matrix faultyu = a+b+c;
+	std::cout << abcp << std::endl;
+
 }

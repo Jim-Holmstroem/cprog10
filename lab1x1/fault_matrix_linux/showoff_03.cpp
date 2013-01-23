@@ -46,5 +46,18 @@ void print_assert(bool value){
 }
 int main()
 {
-    print_assert("test",equal(constant_matrix(),constant_matrix()));
+    Matrix a( 2, 2 );
+    Matrix a_ref( 2, 2 );
+	init_matrix(a,"[ 1 2 ; 3 4 ]");
+	init_matrix(a_ref,"[ 1 2 ; 3 4 ]");
+	std::stringstream ss;
+	ss << a;
+
+    print_assert( "const after printout",
+		equal(a,a_ref)
+	);
+
+	//std::cout << a << std::endl; becomes all zeros
+	//should have made it const: ostream& operator<< (ostream &out, const Matrix &a)
+
 }
