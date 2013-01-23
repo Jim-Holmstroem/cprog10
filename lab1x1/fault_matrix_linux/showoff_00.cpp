@@ -16,7 +16,6 @@ bool equal(Matrix a, Matrix b ){
     {
         for(int j = 0 ; j<a.cols() ; j++) 
         {
-            std::cout << "A";
             if(a[i][j] != b[i][j])
             {
                 return false;

@@ -47,17 +47,27 @@ void print_assert(bool value){
 int main()
 {
     Matrix a( 2, 2 );
-    Matrix a_ref( 2, 2 );
+    Matrix b( 2, 2 );
+    Matrix c( 2, 2 );
+    Matrix abc( 2, 2 );
+    Matrix abcp( 2, 2 );
+	
 	init_matrix(a,"[ 1 2 ; 3 4 ]");
-	init_matrix(a_ref,"[ 1 2 ; 3 4 ]");
-	std::stringstream ss;
-	ss << a;
+	init_matrix(b,"[ 5 6 ; 7 8 ]");
+	init_matrix(c,"[ 9 10 ; 11 12 ]");
+	
+	init_matrix(abc,"[ 413 454 ; 937 1030 ]");
+	init_matrix(abcp,"[ 12 18 ; 21 24 ]");
+	
 
-    print_assert( "const after printout",
-		equal(a,a_ref)
+    print_assert( "chain multiply",
+		equal(a*b*c,abc)
 	);
 
-	//std::cout << a << std::endl; becomes all zeros
-	//should have made it const: ostream& operator<< (ostream &out, const Matrix &a)
+    print_assert( "chain addition",
+		equal(a+b+c,abcp)
+	);
+	Matrix faultyu = a+b+c;
+	std::cout << abcp << std::endl;
 
 }
