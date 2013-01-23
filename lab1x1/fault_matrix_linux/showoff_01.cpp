@@ -47,5 +47,34 @@ void print_assert(bool value){
 }
 int main()
 {
-    print_assert("test",equal(constant_matrix(),constant_matrix()));
+
+    Matrix a( 2, 2 );
+    Matrix b( 2, 2 );
+
+    init_matrix(a, "[ 1 2 ; 3 4 ]");
+    init_matrix(b, "[ 5 6 ; 7 8 ]");
+    Matrix c = a*b;
+
+
+    print_assert( 
+            c[0][0] == 19 &
+            c[0][1] == 22 &
+            c[1][0] == 43 &
+            c[1][1] == 50
+    );
+
+    print_assert( 
+            a[0][0] == 1 &
+            a[0][1] == 2 &
+            a[1][0] == 3 &
+            a[1][1] == 4
+    );
+
+    print_assert( 
+            b[0][0] == 5 &
+            b[0][1] == 6 &
+            b[1][0] == 7 &
+            b[1][1] == 8
+    );
+
 }
