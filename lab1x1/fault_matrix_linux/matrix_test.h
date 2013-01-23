@@ -96,7 +96,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
     }
 
   public:
-    void xtestIndexOperator()
+    void testIndexOperator()
     {
         Matrix m( 2, 2 );
         //std::cout << m;
@@ -200,7 +200,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
         TS_ASSERT( m2.cols() == 3 );
     }
 
-    void xtest_dot_product ( )
+    void test_dot_product ( )
     {
         Matrix m( 1, 5 );
         Matrix m2( 5, 1);
@@ -213,7 +213,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
     }
 
 
-    void xtest_matrix_multiplication_quadratic ( )
+    void test_matrix_multiplication_quadratic ( )
     {
 
         Matrix m1( 2, 2 );
@@ -245,7 +245,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
     }
 
 
-    void xtest_matrix_multiplication_rectangular ( )
+    void test_matrix_multiplication_rectangular ( )
     {
         Matrix m1( 2, 3 );
         Matrix m2( 3, 3);
@@ -390,7 +390,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
     }
 
 
-    void xtest_chain_mult ( )
+    void test_chain_mult ( )
     {
         Matrix m1( 2, 3 );
         Matrix m2( 3, 3);
@@ -419,7 +419,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
         //std::cin.ignore();
     }
 
-    void xtest_addition()
+    void test_addition()
     {
         Matrix m1( 2, 3 );
         Matrix m2( 2, 3);
@@ -447,7 +447,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
     }
 
 
-    void xtest_chain_addition()
+    void test_chain_addition()
     {
         Matrix m1( 2, 3 );
         Matrix m2( 2, 3 );
@@ -474,7 +474,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
         //std::cin.ignore();
     }
 
-    void xtest_matrix_negation()
+    void test_matrix_negation()
     {
         Matrix m1( 2, 3 );
         init_matrix(m1, "[ 1 2 3 ; 4 5 6 ]");
@@ -495,7 +495,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
     }
 
 
-    void xtest_subtraction()
+    void test_subtraction()
     {
         Matrix m1( 2, 3 );
         Matrix m2( 2, 3);
@@ -522,7 +522,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
     }
 
 
-    void xtest_chain_subtraction()
+    void test_chain_subtraction()
     {
         Matrix m1( 2, 3 );
         Matrix m2( 2, 3 );
@@ -547,7 +547,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
     }
 
 
-    void xtest_matrix_mult_int()
+    void test_matrix_mult_int()
     {
         Matrix m1( 2, 3 );
         init_matrix(m1, "[ 1 2 3 ; 3 4 5 ]");
@@ -566,7 +566,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
         TS_ASSERT( m3.cols() == 3 );
     }
 
-    void xtest_int_mult_matrix()
+    void test_int_mult_matrix()
     {
         Matrix m1( 2, 3 );
         init_matrix(m1, "[ 1 2 3 ; 3 4 5 ]");
@@ -585,7 +585,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
         TS_ASSERT( m3.cols() == 3 );
     }
 
-    void xtest_transpose(){
+    void test_transpose(){
         Matrix m2(2,3);
         init_matrix(m2, "[ 1 -2 3 ; 3 4 -5 ]");
 
@@ -607,7 +607,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
         TS_ASSERT( m2.cols() == 2 );
     }
 
-    void xtest_assignment_operator(){
+    void test_assignment_operator(){
         Matrix m1(2,3);
         init_matrix(m1, "[ 1 -2 3 ; 3 4 -5 ]");
         Matrix m2(2,2);
@@ -644,12 +644,12 @@ class MatrixTestSuite : public CxxTest::TestSuite
 
     }
 
-    void xtest_utskrift(){
+    void test_utskrift(){
         Matrix m2(2,3);
         init_matrix(m2, "[ 1 -2 3 ; 3 4 -5 ]");
 
         std::cout << std::endl;
-        std::cout << m2;
+        std::cout << m2 << std::endl;
         std::cout << m2;
         TS_ASSERT( m2[0][0] == 1 );
         TS_ASSERT( m2[0][1] == -2 );
@@ -663,7 +663,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
         TS_ASSERT( m2.cols() == 3 );
     }
 
-    void xtest_plus_then_plus(){
+    void test_plus_then_plus(){
         Matrix m1,m2,m3,m_o1,m_o2,m_result;
 
         init_matrix(m1, "[ 2 3 ; 3 4 ]");
@@ -679,7 +679,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
         TS_ASSERT( checkEqualMatrix(m_o2, m_result ) );
     }
 
-    void xtest_plus_then_times(){
+    void test_plus_then_times(){
         Matrix m1,m2,m3,m_o1,m_o2,m_result;
 
 
@@ -696,7 +696,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
         TS_ASSERT( checkEqualMatrix(m_o2, m_result ) );
     }
 
-    void xtest_plus_then_minus(){
+    void test_plus_then_minus(){
         Matrix m1,m2,m3,m_o1,m_o2,m_result;
 
         init_matrix(m1, "[ 2 3 ; 3 4 ]");
@@ -711,7 +711,7 @@ class MatrixTestSuite : public CxxTest::TestSuite
         TS_ASSERT( checkEqualMatrix(m_o2, m_result ) );
     }
 
-    void xtest_times_then_plus(){
+    void test_times_then_plus(){
         Matrix m1,m2,m3,m_o1,m_o2,m_result;
 
         init_matrix(m1, "[ 2 2 3 ; 1 3 7 ]");
