@@ -18,6 +18,7 @@ int main() {
 
     float z = 0.29;
     int w = (int) (z * x * x);
+	std::cout << z*x*x  << " <<< ";
     if (z * x * x == 29)
         std::cout << z << "*" << x * x << " är 29" << std::endl;
     else

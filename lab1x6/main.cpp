@@ -168,7 +168,7 @@ int main(int argc,char * argv[]){
     newcopy.print();
 
     std::cout << "count true: " << std::count(v1.begin(), v1.end(), true) << std::endl;
-    std::cout << "test std::sort" << std::endl;
+    std::cout << "test std::sort (fails)" << std::endl;
     
     v1.print();
     for(int i=0;i<6;i++){

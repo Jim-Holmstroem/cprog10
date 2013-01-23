@@ -204,14 +204,11 @@ for(unsigned int i=0;i<6;++i){ //close all files
 
 
 
- //   char buff[33];
-/*
+ char buff[33];
   for(unsigned int i=0;i<2048;++i){
   helper::itoa2rev(buff,i);
   std::cout << std::setw(4) << i << " in binary: " << buff << std::endl;
   }
-*/
-/*
     Vector<bool> vb;
     for(unsigned int i=0;i<2048;i++){
         vb.clear();
@@ -224,8 +221,6 @@ for(unsigned int i=0;i<6;++i){ //close all files
     vb.clear();
     vb.print();
     std::cout << "Back-casted to " << static_cast<unsigned int>(vb) << std::endl;
-*/
-/*
   for(unsigned int i=0;i<32;i++){
   unsigned int mask = -1; //biggest number
   mask <<= i;
@@ -233,8 +228,7 @@ for(unsigned int i=0;i<6;++i){ //close all files
   helper::itoa2(buff,mask);
   std::cout << std::setw(2) << i << "'s mask is: " << buff << std::endl;
   }
-*/
-/*
+
     Vector<bool> vec;
     vec = 1337;
     vec.print();//should print out #32/32[00000000000000000000010100111001] //but it doesnt
@@ -294,14 +288,13 @@ for(unsigned int i=0;i<6;++i){ //close all files
     A.push_back(false);
     A.push_back(true);
     A.push_back(true);
-*/
+
   
 //  Vector<bool> test;
 //  test=12345;
 
 //  test.weight_lookup8();
   //std::cout << static_cast<unsigned int>(test) <<".weight_lookup8()= " << test.weight_lookup8() << std::endl;//should be 9
-
 
 
 /*

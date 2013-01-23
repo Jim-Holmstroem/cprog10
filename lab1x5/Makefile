@@ -28,7 +28,7 @@ clean:
 	rm -f *.o lab1x5 val_*.dat
 
 test_weight:
-	./lab1x5
+	./lab1x5 >> /dev/null
 	diff val_builtin.dat val_math.dat
 	diff val_builtin.dat val_lookup8.dat
 	diff val_builtin.dat val_lookup16.dat

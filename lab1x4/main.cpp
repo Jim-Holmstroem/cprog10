@@ -15,7 +15,7 @@ int main(){
     std::cout << "m2[5][2] = "<< m2[5][2] << std::endl;
     std::cout << "m2[0][0] = "<< m2[0][0] << std::endl;
 
-    const Hypercube<100> test;
+    const Hypercube<8> test;
     const Hypercube<4> cc(5);
     const Hypercube<3> smallcc = cc[0]; //copy of subdomain of const Hypercube
     Hypercube<3> smallc = cc[0];

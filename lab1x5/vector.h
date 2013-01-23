@@ -526,8 +526,6 @@ class Vector<bool>{
         reset();
     };
 
-    //TODO testa funktionaliteten
-    //TODO kolla upp minneshanteringen för de här, ska man skapa en maxNumElems() eller ?
     explicit Vector(const std::size_t i): cur_size(i), max_size(2*i){
         elems  = new unsigned int[maxNumElems()];
         reset();
@@ -648,9 +646,9 @@ class Vector<bool>{
     };
 
 
-    //-----------------[to lab1x7]-----------------------
+    //-----------------[to lab1x7]----------------------- HERE
 
-    //friend Vector<bool> operator&(const Vector<bool>& v); //be friend with yourself
+    //friend Vector<bool> operator&(const Vector<bool>& v); //befriend yourself
     Vector<bool> operator&(const Vector<bool>& v) const{
         if(v.size() != this->size()){ //use max(this->size,v.size()) instead??
             throw std::domain_error("vectors must have the same length to use bitwise operators");
@@ -733,16 +731,16 @@ class Vector<bool>{
         } mix;
 
         for(std::size_t i = 0;i<this->numElems();++i){
-	    //sum for element-i
-            mix.i = this->elems[i];
-           // printf("0x%x :\n" ,this->elems[i]);
-            /*for(unsigned int t=0;t<4;++t){
-                printf("0x%x -> 0x%x\n",mix.c[t],constant::lookup8bit[mix.c[t]]);
-	    }*/
+            //sum for element-i
+                mix.i = this->elems[i];
+               // printf("0x%x :\n" ,this->elems[i]);
+                /*for(unsigned int t=0;t<4;++t){
+                    printf("0x%x -> 0x%x\n",mix.c[t],constant::lookup8bit[mix.c[t]]);
+            }*/
 
-	    unsigned int sum_i = constant::lookup8bit[mix.c[0]]+constant::lookup8bit[mix.c[1]]+constant::lookup8bit[mix.c[2]]+constant::lookup8bit[mix.c[3]];
-	    sum+=sum_i;//add it to the total
-	}
+            unsigned int sum_i = constant::lookup8bit[mix.c[0]]+constant::lookup8bit[mix.c[1]]+constant::lookup8bit[mix.c[2]]+constant::lookup8bit[mix.c[3]];
+            sum+=sum_i;//add it to the total
+        }
 	return sum;	
     };
 
@@ -767,8 +765,8 @@ class Vector<bool>{
                 n&= (n-1);
             }
 
-	    sum+=sum_i;//add it to the total
-	}	
+            sum+=sum_i;//add it to the total
+        }	
 	return sum;
     };
 
@@ -792,9 +790,7 @@ class Vector<bool>{
 
 
     //-------------------------------------------------
-
-
-    //TODO vet inte om den funkar riktigt som den ska
+    
     operator unsigned int() const{
         //a mask to take away the bad data bits
         if(cur_size<constant::BOOL_PER_INT){

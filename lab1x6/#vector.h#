@@ -473,9 +473,8 @@ class Vector<bool>{
             write_bit(value);
             return *this;
         };
-	bool operator<(const bool_proxy& rhs){ //TODO is this needed for std::sort?
-	    std::cout << "AAAAAAAAAAAAAAAAAAAAA" << std::endl;
-        return (int(bool(*this)) > int(bool(rhs)));
+        bool operator<(const bool_proxy& rhs){ //TODO is this needed for std::sort?
+            return (int(bool(*this)) > int(bool(rhs)));
         }
 
         operator bool() const{
@@ -520,7 +519,7 @@ class Vector<bool>{
       public:
         //iterator_traits; this 5 shall exist for it to be an valid iterator, and they are used by the algoritms to determine the charecteristics of the iterators passed to them
         typedef std::random_access_iterator_tag iterator_category; 
-        typedef const bool value_type;
+	typedef const bool value_type;
         typedef std::ptrdiff_t difference_type;
         typedef const bool* pointer;
         typedef const bool reference;
@@ -695,7 +694,7 @@ class Vector<bool>{
         std::cout<<"Vector<bool>()"<<std::endl;
 #endif
         elems  = new unsigned int[maxNumElems()];
-x        reset();
+        reset();
     };
 
     //TODO testa funktionaliteten

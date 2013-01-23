@@ -36,7 +36,7 @@ clean:
 	rm -f *.o lab1x1
 
 run:
-	./lab1x1
+	./lab1x1 < indata
 
 #backup: $(BACKUP)
 #	cp -R $(BACKUP) backup/backup_$$(date +20\%y\%m\%d_\%H\%M\%S)
