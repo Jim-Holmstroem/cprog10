@@ -3,7 +3,7 @@
 #include <sstream>
 #include "Matrix.h"
 
-bool checkEqualMatrix(Matrix a, Matrix b ){
+bool equal(Matrix a, Matrix b ){
     // Compare matrices without using matrix 
     // implementation (except for rows/cols and [])
 
@@ -33,8 +33,6 @@ Matrix constant_matrix() {
     return m;
 }
 
-
-
 void init_matrix( Matrix& m, const char * input )
 {
     std::stringstream ss( input );
@@ -49,7 +47,5 @@ void print_assert(bool value){
 }
 int main()
 {
-
-    print_assert("test",true);
-
+    print_assert("test",equal(constant_matrix(),constant_matrix()));
 }
