@@ -1,5 +1,5 @@
 # Change these
-cxxtestpath = /info/cprog09/cxxtest/
+cxxtestpath = ../cxxtest/
 testcode    = matrix_test.h
 
 testcode.cpp: $(testcode)
@@ -10,7 +10,7 @@ runtest_all:
 
 runtest0%: testcode.cpp
 	g++ -I $(cxxtestpath) -o runtest0$* testcode.cpp Matrix0$*.o
-	./runtest0$*
+#./runtest0$*
 
 ref_output: ref_output_maker.cpp
 	g++ ref_output_maker.cpp matrix.cpp -o ref_output
