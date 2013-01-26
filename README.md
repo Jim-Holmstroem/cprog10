@@ -7,6 +7,8 @@ lab1/
 =====
 www.csc.kth.se/utbildning/kth/kurser/DD2387/cprog09/labbar/lab1.pdf
 
+The extralabs is located in lab1x*
+
 lab2/
 =====
 www.csc.kth.se/utbildning/kth/kurser/DD2387/cprog09/labbar/lab2.pdf
