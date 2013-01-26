@@ -5,12 +5,15 @@ The course Programsystemkonstruktion med C++ at KTH
 
 lab1/
 =====
+www.csc.kth.se/utbildning/kth/kurser/DD2387/cprog09/labbar/lab1.pdf
 
 lab2/
 =====
+www.csc.kth.se/utbildning/kth/kurser/DD2387/cprog09/labbar/lab2.pdf
 
 lab3/
 =====
+www.csc.kth.se/utbildning/kth/kurser/DD2387/cprog10/labbar/lab3.pdf
 
 lab1x1/
 =======
